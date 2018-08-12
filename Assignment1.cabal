@@ -1,0 +1,67 @@
+Name:                Assignment1
+Version:             0.4.0.0
+Author:              Antony Hosking
+Maintainer:          Antony.Hosking@anu.edu.au
+Category:            Graphics
+Build-Type:          Simple
+Extra-Source-Files:  ChangeLog.md
+Cabal-Version:       >= 1.20
+Homepage:            https://cs.anu.edu.au/courses/comp1100
+
+Source-Repository head
+  type:     git
+  location: https://gitlab.cecs.anu.edu.au/comp1100/comp1100-assignment1.git
+
+Library View
+  hs-source-dirs:      src
+  other-modules:       View, Model
+  build-depends:       base >= 4.10.1 && < 4.11,
+                       codeworld-api == 0.2.2.1,
+                       text >= 1.2.2 && < 1.3
+  default-language:    Haskell2010
+
+Executable HelloWorld
+  hs-source-dirs:      src
+  main-is:             HelloWorld.hs
+  build-depends:       base >= 4.10.1 && < 4.11
+  default-language:    Haskell2010
+  ghc-options:         -Wall
+
+Executable HelloCodeWorld
+  hs-source-dirs:      src
+  main-is:             HelloCodeWorld.hs
+  build-depends:       base >= 4.10.1 && < 4.11,
+                       codeworld-api == 0.2.2.1,
+                       text >= 1.2.2 && < 1.3
+  default-language:    Haskell2010
+  ghc-options:         -Wall -threaded
+
+Executable Pictures
+  hs-source-dirs:      src
+  main-is:             Pictures.hs
+  other-modules:       Model, View
+  build-depends:       base >= 4.10.1 && < 4.11,
+                       codeworld-api == 0.2.2.1,
+                       text >= 1.2.2 && < 1.3
+  default-language:    Haskell2010
+  ghc-options:         -Wall -threaded
+
+Executable Interaction
+  hs-source-dirs:      src
+  main-is:             Interaction.hs
+  build-depends:       base >= 4.10.1 && < 4.11,
+                       codeworld-api == 0.2.2.1,
+                       text >= 1.2.2 && < 1.3
+  default-language:    Haskell2010
+  ghc-options:         -Wall -threaded
+
+Executable Main
+  hs-source-dirs:      src
+  main-is:             Main.hs
+  other-modules:       View, Controller, Model
+  build-depends:       base >= 4.10.1 && < 4.11,
+                       codeworld-api == 0.2.2.1,
+                       text >= 1.2.2 && < 1.3,
+                       doctest >= 0.14.0 && <= 0.15.0
+  default-language:    Haskell2010
+  ghc-options:         -Wall -threaded
