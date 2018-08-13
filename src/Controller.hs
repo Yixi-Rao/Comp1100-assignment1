@@ -23,6 +23,6 @@ handleEvent event m@(Model ss t c) =
       | k == "C" -> undefined -- TODO: switch colour
       | otherwise -> m -- ignore other events
       where k = unpack key
-    MousePress LeftButton -> undefined -- TODO
-    MouseRelease LeftButton -> undefined -- TODO
+    PointerPress p -> undefined -- TODO
+    PointerRelease p -> undefined -- TODO
     _ -> m
