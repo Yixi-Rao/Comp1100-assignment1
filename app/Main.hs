@@ -8,3 +8,4 @@ import View
 
 main :: IO ()
 main = interactionOf initialModel handleTime handleEvent modelToPicture
+  where handleTime _ s = s
