@@ -20,7 +20,12 @@ modelToPicture (Model ss t c)
 
 -- TODO
 toolLabel :: Tool -> String
-toolLabel = undefined
+toolLabel x =  case x of
+    LineTool _-> "Line... click-drag-release"
+    PolygonTool _ -> "Polygon... click 3 or more times then spacebar"
+    RectangleTool _ -> "Rectangle... click-drag-release"
+    CircleTool _ -> "Circle... click-drag-release"
+    EllipseTool _-> "Ellipse... click-drag-release"
 
 -- TODO
 colourShapesToPicture :: [ColourShape] -> Picture

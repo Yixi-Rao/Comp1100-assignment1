@@ -35,8 +35,35 @@ handleEvent event m@(Model ss t c) =
 
 -- TODO
 nextColour :: ColourName -> ColourName
-nextColour = undefined
+nextColour colour = case colour of
+    Black -> Red
+    Red -> Orange
+    Orange -> Yellow
+    Yellow -> Green
+    Green -> Blue
+    Blue -> Violet
+    Violet -> Black
 
 -- TODO
 nextTool :: Tool -> Tool
-nextTool = undefined
+nextTool tool = case tool of
+    LineTool (Nothing) -> PolygonTool []
+    LineTool (Just point) -> LineTool (Just point)
+
+    PolygonTool [] -> RectangleTool Nothing
+    PolygonTool names -> PolygonTool names
+
+
+    RectangleTool (Nothing) -> CircleTool Nothing
+    RectangleTool (Just point) -> RectangleTool (Just point)
+
+    CircleTool (Nothing) -> EllipseTool Nothing
+    CircleTool (Just point) -> CircleTool (Just point)
+
+    EllipseTool (Nothing) -> LineTool Nothing
+    EllipseTool (Just point) -> EllipseTool (Just point)
+
+
+
+
+
