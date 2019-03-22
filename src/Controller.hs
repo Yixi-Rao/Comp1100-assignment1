@@ -47,21 +47,24 @@ nextColour colour = case colour of
 -- TODO
 nextTool :: Tool -> Tool
 nextTool tool = case tool of
-    LineTool (Nothing) -> PolygonTool []
-    LineTool (Just point) -> LineTool (Just point)
+   LineTool (Nothing) -> PolygonTool []
+   LineTool (Just (a,b)) -> LineTool (Just (a,b))
 
-    PolygonTool [] -> RectangleTool Nothing
-    PolygonTool names -> PolygonTool names
+   PolygonTool [] -> RectangleTool Nothing
+   PolygonTool names -> PolygonTool names
 
 
-    RectangleTool (Nothing) -> CircleTool Nothing
-    RectangleTool (Just point) -> RectangleTool (Just point)
+   RectangleTool (Nothing) -> CircleTool Nothing
+   RectangleTool (Just (a,b)) -> RectangleTool (Just (a,b))
 
-    CircleTool (Nothing) -> EllipseTool Nothing
-    CircleTool (Just point) -> CircleTool (Just point)
+   CircleTool (Nothing) -> EllipseTool Nothing
+   CircleTool (Just (a,b)) -> CircleTool (Just (a,b))
 
-    EllipseTool (Nothing) -> LineTool Nothing
-    EllipseTool (Just point) -> EllipseTool (Just point)
+   EllipseTool (Nothing) -> LineTool Nothing
+   EllipseTool (Just (a,b)) -> EllipseTool (Just (a,b))
+
+
+
 
 
 
