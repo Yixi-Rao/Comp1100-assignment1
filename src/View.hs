@@ -37,8 +37,21 @@ colourShapeToPicture = undefined
 
 -- TODO
 colourNameToColour :: ColourName -> Colour
-colourNameToColour = undefined
+colourNameToColour colour = case colour of
+    Black -> black
+    Red -> red
+    Orange -> orange
+    Yellow -> yellow
+    Green -> green
+    Blue -> blue
+    Violet -> violet
 
 -- TODO
 shapeToPicture :: Shape -> Picture
-shapeToPicture = undefined
+shapeToPicture shape = case shape of
+    Line (a,b) (c,d)->(polyline [(a,b),(c,d)]) & coordinatePlane
+    Polygon [(a,b)] -> solidPolygon [(a,b)]
+    Rectangle (a,b) (c,d) -> (solidRectangle (abs (a-c)) (abs (b-d)))& coordinatePlane
+    Circle (a,b) (c,d) -> (solidCircle (sqrt ((a-c)**2+(b-d)**2)))& coordinatePlane
+    Ellipse (a,b) (c,d) -> solidCircle (sqrt ((a-c)**2+(b-d)**2))
+
