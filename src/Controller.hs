@@ -33,7 +33,7 @@ handleEvent event m@(Model ss t c) =
     PointerRelease p -> undefined -- TODO
     _ -> m
 
--- TODO
+-- move to the next colour
 nextColour :: ColourName -> ColourName
 nextColour colour = case colour of
     Black -> Red
@@ -44,7 +44,7 @@ nextColour colour = case colour of
     Blue -> Violet
     Violet -> Black
 
--- TODO
+-- This function implements tool-switching, but should not change Tool if the user is halfway through an operation
 nextTool :: Tool -> Tool
 nextTool tool = case tool of
    LineTool (Nothing) -> PolygonTool []
