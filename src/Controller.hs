@@ -21,16 +21,36 @@ handleEvent event m@(Model ss t c) =
       -- display the mystery image
       | k == "M" -> Model mystery t c
 
-      | k == "Backspace" || k == "Delete" -> undefined -- TODO: drop the last added shape
-      | k == " " -> undefined -- TODO: finish polygon vertices
-      | k == "T" -> undefined -- TODO: switch tool
-      | k == "C" -> undefined -- TODO: switch colour
+      | k == "Backspace" || k == "Delete" -> Model (droplast ss) t c
 
+      --  drop the last added shape
+      | k == " " -> Model ss (PolygonTool []) c --  finish polygon vertices
+      | k == "T" -> Model ss (nextTool t) c  --  switch tool
+      | k == "C" -> Model ss t (nextColour c) --  switch colour
       -- ignore other events
       | otherwise -> m
       where k = unpack key
-    PointerPress p -> undefined -- TODO
-    PointerRelease p -> undefined -- TODO
+            droplast :: [a] -> [a]
+            droplast list =case list of
+                       []-> error "no elements in the list"
+                       _:xs-> xs
+    PointerPress p
+        -- start at a point and Press the point with your current tool
+        | t==LineTool Nothing -> Model [] (LineTool (Just p)) c
+        | t==PolygonTool [] -> Model [] (PolygonTool (p:[])) c
+
+        | t==PolygonTool (p:[p]) -> Model [] (PolygonTool ([p]++(p:[p]))) c
+        | t==RectangleTool Nothing -> Model [] (RectangleTool (Just p)) c
+        | t==CircleTool Nothing -> Model [] (CircleTool (Just p)) c
+        | t==EllipseTool Nothing -> Model [] (EllipseTool (Just p)) c
+    PointerRelease p
+        -- ended at the point p,and added it into a model
+        | t==LineTool (Just p)-> Model [(c,Line p p)] (LineTool Nothing) c
+        | t==RectangleTool (Just p) -> Model [(c,Rectangle p p)] (RectangleTool Nothing) c
+        | t==CircleTool (Just p) -> Model [(c,Circle p p)] (CircleTool Nothing) c
+        | t==EllipseTool (Just p) -> Model [(c,Ellipse p p)] (EllipseTool Nothing) c
+
+
     _ -> m
 
 -- move to the next colour
