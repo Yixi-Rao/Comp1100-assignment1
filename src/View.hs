@@ -30,7 +30,7 @@ toolLabel x =  case x of
 -- This takes a list of a pair of colour and shape and integrates them into coordinatePlane
 colourShapesToPicture :: [ColourShape] -> Picture
 colourShapesToPicture list = case list of
-    [] -> error "It is a empty list,try again"
+    [] -> blank
     [x] -> colourShapeToPicture x
     x:xs -> ((colourShapeToPicture x)&colourShapesToPicture xs)
 
