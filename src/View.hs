@@ -59,7 +59,7 @@ shapeToPicture shape = case shape of
     Polygon [_] -> error "just one point,not enough!"
     Polygon [] -> error "no points in the list"
 
-    Rectangle (a,b) (c,d) -> (translated (abs ((a+c)/2)) (abs ((b+d)/2)) (solidRectangle (abs (a-c)) (abs (b-d))))& coordinatePlane
+    Rectangle (a,b) (c,d) -> (translated ((a+c)/2) ((b+d)/2) (solidRectangle (abs (a-c)) (abs (b-d))))& coordinatePlane
 
     Circle (a,b) (c,d) -> (translated a b (solidCircle r))& coordinatePlane
       where r=sqrt ((a-c)**2+(b-d)**2)
