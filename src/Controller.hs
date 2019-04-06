@@ -24,7 +24,7 @@ handleEvent event m@(Model ss t c) =
       | k == "Backspace" || k == "Delete" -> Model (droplast ss) t c
 
       --  drop the last added shape
-      | k == " " -> Model ss (PolygonTool []) c --  finish polygon vertices
+      | k == " " -> Model ss (PolygonTool [ ]) c --  finish polygon vertices
       | k == "T" -> Model ss (nextTool t) c  --  switch tool
       | k == "C" -> Model ss t (nextColour c) --  switch colour
       -- ignore other events
@@ -43,12 +43,24 @@ handleEvent event m@(Model ss t c) =
         | t==RectangleTool Nothing -> Model [] (RectangleTool (Just p)) c
         | t==CircleTool Nothing -> Model [] (CircleTool (Just p)) c
         | t==EllipseTool Nothing -> Model [] (EllipseTool (Just p)) c
-    PointerRelease p
+
+    PointerRelease p -> case t of
+            LineTool (Just q)-> Model [(c,Line p q)] (LineTool Nothing) c
+            LineTool Nothing -> error "go back to click some points"
+
+
+            RectangleTool (Just q) -> Model [(c,Rectangle p q)] (RectangleTool Nothing) c
+            RectangleTool Nothing -> error "go back to click some points"
+
+            CircleTool (Just q) -> Model [(c,Circle p q)] (CircleTool Nothing) c
+            CircleTool Nothing -> error "go back to click some points"
+
+            EllipseTool (Just q) -> Model [(c,Ellipse p q)] (EllipseTool Nothing) c
+            EllipseTool Nothing -> error "go back to click some points"
+
         -- ended at the point p,and added it into a model
-        | t==LineTool (Just p)-> Model [(c,Line p p)] (LineTool Nothing) c
-        | t==RectangleTool (Just p) -> Model [(c,Rectangle p p)] (RectangleTool Nothing) c
-        | t==CircleTool (Just p) -> Model [(c,Circle p p)] (CircleTool Nothing) c
-        | t==EllipseTool (Just p) -> Model [(c,Ellipse p p)] (EllipseTool Nothing) c
+
+
 
 
     _ -> m

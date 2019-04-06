@@ -67,7 +67,7 @@ shapeToPicture shape = case shape of
     Ellipse (a,b) (c,d) -> (translate (scaled scalex scaley (solidCircle r)))& coordinatePlane
 
       where translate :: Picture -> Picture
-            translate x = translated (abs ((a+c)/2)) (abs ((b+d)/2)) x
+            translate x = translated  ((a+c)/2) ((b+d)/2) x
             --function that translate a scaled picture with (a+c)/2 and (b+d)/2
             r=(sqrt ((a-c)**2+(b-d)**2))/2
             scalex=(abs(a-c))/(2*r)
