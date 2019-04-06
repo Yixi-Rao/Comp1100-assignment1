@@ -26,30 +26,34 @@ handleEvent event m@(Model ss t c) =
                         _:xs -> Model xs t c
 
       --  drop the last added shape
-      | k == " " ->case t of
-             PolygonTool (a:b:l) -> Model [(c,Polygon (a:b:l))] (PolygonTool []) c
-             _-> error "not enough points"--  finish polygon vertices
+      | k == " " ->helperspace t
+          --  finish polygon vertices
       | k == "T" -> Model ss (nextTool t) c  --  switch tool
       | k == "C" -> Model ss t (nextColour c) --  switch colour
       -- ignore other events
       | otherwise -> m
       where k = unpack key
+            helperspace::Tool->Model
+            helperspace tool = case tool of
+                PolygonTool (a:b:l)-> Model [(c,Polygon (a:b:l))] (PolygonTool []) c
+                PolygonTool (_:_)-> error "you just click some points,but not enough,we need 3 points at lease"
+                _-> error "you use a wrong tool or it is a empty list, space key is designed to polygan"
 
-
-    PointerPress p -> case t of
+    PointerPress p -> helperpress t
         -- start at a point and Press the point with your current tool
-        LineTool _ -> Model [] (LineTool (Just p)) c
+            where  helperpress::Tool -> Model
+                   helperpress tool =case tool of
+                       LineTool _ -> Model [] (LineTool (Just p)) c
 
-        PolygonTool []-> Model [] (PolygonTool [p]) c
-        PolygonTool [l]-> Model [] (PolygonTool (p:[l])) c
-        PolygonTool (a:b:l) -> Model [] (PolygonTool (p:a:b:l)) c
+                       PolygonTool []-> Model [] (PolygonTool [p]) c
+                       PolygonTool [l]-> Model [] (PolygonTool (p:[l])) c
+                       PolygonTool (a:b:l) -> Model [] (PolygonTool (p:a:b:l)) c
 
-        RectangleTool _ -> Model [] (RectangleTool (Just p)) c
+                       RectangleTool _ -> Model [] (RectangleTool (Just p)) c
 
-        CircleTool _ -> Model [] (CircleTool (Just p)) c
+                       CircleTool _ -> Model [] (CircleTool (Just p)) c
 
-        EllipseTool _ -> Model [] (EllipseTool (Just p)) c
-
+                       EllipseTool _ -> Model [] (EllipseTool (Just p)) c
     PointerRelease p -> case t of
             LineTool (Just q)-> Model [(c,Line p q)] (LineTool Nothing) c
             LineTool Nothing -> error "go back to click some points"
